@@ -22,27 +22,43 @@ namespace raschetka2._0
     public static class server
     {
         
-        public static open_connection_atd conny(string host, int port, string user, string pass)
+        public static open_connection_atd connect_or_create(string what_should_i_do)
         {
             var to = new open_connection_atd();
-            using (NpgsqlConnection connection_to_db = new NpgsqlConnection($"Host={host};" +
-                $"Port={port};" +
-                $"Username={user};" +
-                $"Password={pass};" +
-                $"Database=postgres"))
+            switch (what_should_i_do)
             {
-                connection_to_db.Open();
-                using (NpgsqlCommand get_db_name = new NpgsqlCommand("SELECT datname FROM pg_database WHERE datistemplate = false AND datname != 'postgres' ORDER BY datname", connection_to_db))
-                {
-                    using (NpgsqlDataReader reader = get_db_name.ExecuteReader())
+                case "view":
+                    using (NpgsqlConnection connection_to_db = new NpgsqlConnection($"Host={data_for_connection.host};" +
+                        $"Port={data_for_connection.port};" +
+                        $"Username={data_for_connection.username};" +
+                        $"Password={data_for_connection.password};" +
+                        $"Database=postgres"))
                     {
-                        while (reader.Read())
+                        connection_to_db.Open();
+                        using (NpgsqlCommand get_db_name = new NpgsqlCommand("SELECT datname FROM pg_database WHERE datistemplate = false AND datname != 'postgres' ORDER BY datname", connection_to_db))
                         {
-                            to.combobox_items.Add(reader.GetString(0));
+                            using (NpgsqlDataReader reader = get_db_name.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    to.combobox_items.Add(reader.GetString(0));
+                                }
+                            }
                         }
                     }
-                }
-                
+                    break;
+                case "create":
+                    using (NpgsqlConnection connection_to_db = new NpgsqlConnection($"Host={data_for_connection.host};" +
+                        $"Port={data_for_connection.port};" +
+                        $"Username={data_for_connection.username};" +
+                        $"Password={data_for_connection.password};" +
+                        $"Database={data_for_connection.database}"))
+                    {
+                        connection_to_db.Open();
+                        using (NpgsqlCommand command = new NpgsqlCommand($"CREATE DATABASE \"{data_for_connection.database}\"", connection_to_db))
+                            command.ExecuteNonQuery();
+                    }
+                    break;
             }
             return to;
         }

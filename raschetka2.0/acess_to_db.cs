@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,10 +53,13 @@ namespace raschetka2._0
             {
                 try
                 {
-                    var t = new open_connection_atd();
-                    server.conny(textBox1.Text, port, textBox3.Text, textBox4.Text);
+                    data_for_connection.host = textBox1.Text;
+                    data_for_connection.port = textBox2.Text;
+                    data_for_connection.username = textBox3.Text;
+                    data_for_connection.password = textBox4.Text;
+                    var conn = server.connect_or_create("view");
                     comboBox1.Items.Clear();
-                    comboBox1.Items.AddRange(t.combobox_items.ToArray());
+                    comboBox1.Items.AddRange(conn.combobox_items.ToArray());
                     comboBox1.Items.Add("Создать базу...");
                     button1.Text = "Подключиться";
                     button1.Enabled = true;
@@ -76,7 +80,6 @@ namespace raschetka2._0
             else { MessageBox.Show("Порт должен состоять из цифр"); button1.Text = "Подключиться"; button1.Enabled = true; ; return; }
 
         }
-
         private void combobox1_selectedondexchanched(object sender, EventArgs e)
         {
             string choose = comboBox1.Text;
@@ -87,7 +90,6 @@ namespace raschetka2._0
                 button2.Location = new Point(107, 260);
                 textBox5.Visible = true;
                 label8.Visible = true;
-
             }
             else
             {
@@ -105,13 +107,22 @@ namespace raschetka2._0
             {
                 button2.Enabled = false;
                 button2.Text = "Открываем...";
-                data_for_connection.host = textBox1.Text;
-                data_for_connection.port = textBox2.Text;
-                data_for_connection.username = textBox3.Text;
-                data_for_connection.password = textBox4.Text;
                 data_for_connection.database = comboBox1.Text;
                 DialogResult = DialogResult.OK;
                 Close();
+            }
+            try
+            {
+                button2.Enabled = false;
+                button2.Text = "Создание...";
+                data_for_connection.database = textBox5.Text;
+                var create = server.connect_or_create("create");
+                DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch
+            {
+
             }
         }
     }
