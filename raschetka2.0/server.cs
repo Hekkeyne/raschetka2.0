@@ -55,8 +55,11 @@ namespace raschetka2._0
                         $"Database={data_for_connection.database}"))
                     {
                         connection_to_db.Open();
-                        using (NpgsqlCommand command = new NpgsqlCommand($"CREATE DATABASE \"{data_for_connection.database}\"", connection_to_db))
+                        using (NpgsqlCommand command = new NpgsqlCommand($"CREATE DATABASE @1", connection_to_db))
+                        {
+                            command.Parameters.AddWithValue("@1", data_for_connection.database);
                             command.ExecuteNonQuery();
+                        }
                     }
                     break;
             }

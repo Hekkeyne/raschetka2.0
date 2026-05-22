@@ -10,7 +10,14 @@ namespace raschetka2._0
         private void load_form1(object sender, EventArgs e)
         {
             acess_to_db atdb = new acess_to_db();
-            atdb.ShowDialog();
+            if (atdb.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+            else
+            {
+                Close();
+            }
         }
     }
 }

@@ -111,18 +111,14 @@ namespace raschetka2._0
                 DialogResult = DialogResult.OK;
                 Close();
             }
-            try
+            else
             {
                 button2.Enabled = false;
                 button2.Text = "Создание...";
                 data_for_connection.database = textBox5.Text;
                 var create = server.connect_or_create("create");
                 DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch
-            {
-
+                Close();
             }
         }
     }
