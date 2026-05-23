@@ -87,6 +87,7 @@ namespace raschetka2._0
             добавитьНоыйЦехToolStripMenuItem.Name = "добавитьНоыйЦехToolStripMenuItem";
             добавитьНоыйЦехToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             добавитьНоыйЦехToolStripMenuItem.Text = "Добавить ноый цех";
+            добавитьНоыйЦехToolStripMenuItem.Click += добавитьНоыйЦехToolStripMenuItem_Click;
             // 
             // изменитьСведенияОЦехеToolStripMenuItem
             // 

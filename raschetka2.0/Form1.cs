@@ -30,5 +30,14 @@ namespace raschetka2._0
         {
             //вывод толко нужных сотрудников
         }
+
+        private async void добавитьНоыйЦехToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var add = new add_new_ceh(null);
+            if (add.ShowDialog() == DialogResult.OK)
+            {
+                dataGridView2.DataSource=(await server.open_db("цех")).цех;
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Npgsql;
+using System.Data;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace raschetka2._0
 {
@@ -19,6 +21,14 @@ namespace raschetka2._0
     {
         public System.Data.DataTable цех { get; set; } = new System.Data.DataTable();
         public System.Data.DataTable сотрудники { get; set; } = new System.Data.DataTable();
+    }
+    public class data_цех
+    {
+        public string ceh_name;
+        public string ceh_admin;
+        public string production;
+        public string phone_number;
+        public string adres;
     }
     public static class server
     {
@@ -113,6 +123,39 @@ namespace raschetka2._0
                 }
             }
             return enter_data;
+        }
+        public static async Task<data_цех> do_цех(string ceh_name,
+        string ceh_admin,
+        string production,
+        string phone_number,
+        string adres)
+        {
+            var writer = new data_цех();
+            writer.ceh_name = ceh_name;
+            writer.ceh_admin = ceh_admin;
+            writer.production = production;
+            writer.phone_number = phone_number;
+            writer.adres = adres;
+            using (NpgsqlConnection connection = new NpgsqlConnection(data_for_connection.connection))
+            {
+                await connection.OpenAsync();
+                using (NpgsqlCommand command = new NpgsqlCommand("INSERT INTO Цех " +
+                        "(Название_цеха," +
+                        "Начальник_цеха," +
+                        "Продукция," +
+                        "Телефон," +
+                        "Адрес)" +
+                        "Values (@1,@2,@3,@4,@5)", connection))
+                {
+                    command.Parameters.AddWithValue("@1", ceh_name);
+                    command.Parameters.AddWithValue("@2", ceh_admin);
+                    command.Parameters.AddWithValue("@3", production);
+                    command.Parameters.AddWithValue("@4", phone_number);
+                    command.Parameters.AddWithValue("@5", adres);
+                    command.ExecuteNonQueryAsync();
+                }
+            }
+            return writer;
         }
     }
 }
