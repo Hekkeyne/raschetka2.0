@@ -43,7 +43,7 @@ namespace raschetka2._0
             button2.Enabled = enab;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             label7.ForeColor = Color.Black;
             label7.Text = "Подключение...";
@@ -59,7 +59,7 @@ namespace raschetka2._0
                     data_for_connection.password = textBox4.Text;
                     var conn = server.connect_or_create("view");
                     comboBox1.Items.Clear();
-                    comboBox1.Items.AddRange(conn.combobox_items.ToArray());
+                    comboBox1.Items.AddRange((await conn).combobox_items.ToArray());
                     comboBox1.Items.Add("Создать базу...");
                     button1.Text = "Подключиться";
                     button1.Enabled = true;

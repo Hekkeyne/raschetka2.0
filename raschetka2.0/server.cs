@@ -19,12 +19,11 @@ namespace raschetka2._0
     {
         public System.Data.DataTable цех { get; set; } = new System.Data.DataTable();
         public System.Data.DataTable сотрудники { get; set; } = new System.Data.DataTable();
-
     }
     public static class server
     {
 
-        public static open_connection_atd connect_or_create(string what_should_i_do)
+        public static async Task<open_connection_atd> connect_or_create(string what_should_i_do)
         {
             var to = new open_connection_atd();
             using (NpgsqlConnection connection_to_db = new NpgsqlConnection($"Host={data_for_connection.host};" +
@@ -33,13 +32,13 @@ namespace raschetka2._0
                 $"Password={data_for_connection.password};" +
                 $"Database=postgres"))
             {
-                connection_to_db.Open();
+                await connection_to_db.OpenAsync();
                 switch (what_should_i_do)
                 {
                     case "view":
                         using (NpgsqlCommand get_db_name = new NpgsqlCommand("SELECT datname FROM pg_database WHERE datistemplate = false AND datname != 'postgres' ORDER BY datname", connection_to_db))
                         {
-                            using (NpgsqlDataReader reader = get_db_name.ExecuteReader())
+                            using (NpgsqlDataReader reader = await get_db_name.ExecuteReaderAsync())
                             {
                                 while (reader.Read())
                                 {
@@ -51,14 +50,14 @@ namespace raschetka2._0
                     case "create":
                         using (NpgsqlCommand command = new NpgsqlCommand($"CREATE DATABASE \"{data_for_connection.database}\"", connection_to_db))
                         {
-                            command.ExecuteNonQuery();
+                            await command.ExecuteNonQueryAsync();
                         }
                         break;
                 }
                 return to;
             }
         }
-        public static data_for_dgv open_db(string what_a_dgv)
+        public static async Task<data_for_dgv> open_db(string what_a_dgv)
         {
             var enter_data = new data_for_dgv();
             data_for_connection.connection = $"Host={data_for_connection.host};" +
@@ -68,7 +67,7 @@ namespace raschetka2._0
                 $"Database={data_for_connection.database}";
             using (NpgsqlConnection connection = new NpgsqlConnection(data_for_connection.connection))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 switch (what_a_dgv)
                 {
                     case "цех":
@@ -79,15 +78,14 @@ namespace raschetka2._0
                     $"Продукция TEXT NOT NULL," +
                     $"Телефон TEXT NOT NULL," +
                     $"Адрес TEXT NOT NULL)", connection))
-                            command.ExecuteNonQuery();
+                            await command.ExecuteNonQueryAsync();
                         using (NpgsqlCommand selet_цех = new NpgsqlCommand($"SELECT * FROM Цех", connection))
-                        using (var read_цех = selet_цех.ExecuteReader())
+                        using (var read_цех = await selet_цех.ExecuteReaderAsync())
                         {
                             var table_цех = new System.Data.DataTable();
                             table_цех.Load(read_цех);
                             enter_data.цех = table_цех;
                         }
-
                         break;
 
                     case "сотрудники":
@@ -102,9 +100,9 @@ namespace raschetka2._0
                     $"Телефон TEXT NOT NULL," +
                     $"Адрес TEXT NOT NULL)", connection))
                         {
-                            command.ExecuteNonQuery();
+                            await command.ExecuteNonQueryAsync();
                             using (NpgsqlCommand selet_сотрудники = new NpgsqlCommand($"SELECT * FROM Сотрудники", connection))
-                            using (var read_сотрудники = selet_сотрудники.ExecuteReader())
+                            using (var read_сотрудники = await selet_сотрудники.ExecuteReaderAsync())
                             {
                                 var table_сотрудники = new System.Data.DataTable();
                                 table_сотрудники.Load(read_сотрудники);

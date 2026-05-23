@@ -158,6 +158,7 @@ namespace raschetka2._0
             dataGridView2.RowHeadersVisible = false;
             dataGridView2.Size = new System.Drawing.Size(293, 555);
             dataGridView2.TabIndex = 3;
+            dataGridView2.SelectionChanged += selection_changed_цех;
             // 
             // groupBox1
             // 
