@@ -114,6 +114,7 @@ namespace raschetka2._0
             добавитьНовогоРаботникаToolStripMenuItem.Name = "добавитьНовогоРаботникаToolStripMenuItem";
             добавитьНовогоРаботникаToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
             добавитьНовогоРаботникаToolStripMenuItem.Text = "Добавить нового работника";
+            добавитьНовогоРаботникаToolStripMenuItem.Click += добавитьНовогоРаботникаToolStripMenuItem_Click;
             // 
             // изменитьСведенияОСотрудникеToolStripMenuItem
             // 

@@ -28,6 +28,17 @@ namespace raschetka2._0
         public string phone_number;
         public string adres;
     }
+    public class data_сотрудник
+    {
+        public string ceh_name;
+        public string name;
+        public string surname;
+        public string father_name;
+        public string dolznost;
+        public string oklad;
+        public string phone_number;
+        public string adres;
+    }
     public static class server
     {
 
@@ -122,7 +133,7 @@ namespace raschetka2._0
             }
             return enter_data;
         }
-        public static async Task<data_цех> do_цех(string ceh_name,
+        public static async Task<data_цех> add_цех(string ceh_name,
         string ceh_admin,
         string production,
         string phone_number,
@@ -150,6 +161,51 @@ namespace raschetka2._0
                     command.Parameters.AddWithValue("@3", production);
                     command.Parameters.AddWithValue("@4", phone_number);
                     command.Parameters.AddWithValue("@5", adres);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            return writer;
+        }
+        public static async Task<data_сотрудник> add_сотрудник(string ceh_name,
+        string name,
+        string surname,
+        string father_name,
+        string dolznost,
+        string oklad,
+        string phone_number,
+        string adres)
+        {
+            var writer = new data_сотрудник();
+            writer.ceh_name = ceh_name;
+            writer.name = name;
+            writer.surname = surname;
+            writer.father_name = father_name;
+            writer.dolznost = dolznost;
+            writer.oklad = oklad;
+            writer.phone_number = phone_number;
+            writer.adres = adres;
+            using (var connection = new NpgsqlConnection(data_for_connection.connection))
+            {
+                await connection.OpenAsync();
+                using (var command = new NpgsqlCommand("INSERT INTO Сотрудники " +
+                        "(Название_цеха," +
+                        "Фамилия," +
+                        "Имя," +
+                        "Отчество," +
+                        "Должность, " +
+                        "Оклад, " +
+                        "Телефон, " +
+                        "Адрес )" +
+                        "Values (@1,@2,@3,@4,@5, @6, @7, @8)", connection))
+                {
+                    command.Parameters.AddWithValue("@2", name);
+                    command.Parameters.AddWithValue("@3", surname);
+                    command.Parameters.AddWithValue("@4", father_name);
+                    command.Parameters.AddWithValue("@5", dolznost);
+                    command.Parameters.AddWithValue("@1", ceh_name);
+                    command.Parameters.AddWithValue("@6", oklad);
+                    command.Parameters.AddWithValue("@7", phone_number);
+                    command.Parameters.AddWithValue("@8", adres);
                     await command.ExecuteNonQueryAsync();
                 }
             }

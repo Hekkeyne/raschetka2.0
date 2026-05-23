@@ -46,7 +46,7 @@ namespace raschetka2._0
             button1.Text = "Добавляем...";
             try
             {
-                await server.do_цех(textBox2.Text,
+                await server.add_цех(textBox2.Text,
                     comboBox1.Text,
                     textBox6.Text,
                     textBox7.Text,
