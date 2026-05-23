@@ -33,11 +33,26 @@ namespace raschetka2._0
 
         private async void добавитьНоыйЦехToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var add = new add_new_ceh(null);
+            List<string> list = new List<string>();
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+                list.Add(dataGridView1[2, i].Value.ToString());
+            var add = new add_new_ceh(list.Distinct().ToList());
             if (add.ShowDialog() == DialogResult.OK)
-            {
-                dataGridView2.DataSource=(await server.open_db("цех")).цех;
-            }
+                dataGridView2.DataSource = (await server.open_db("цех")).цех;
+        }
+
+        private async void удалитьЦехToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var conf_del = new confirm_del(dataGridView2[0, dataGridView2.CurrentCell.RowIndex].Value.ToString(), "цех");
+            if (conf_del.ShowDialog() == DialogResult.OK)
+                dataGridView2.DataSource = (await server.open_db("цех")).цех;
+        }
+
+        private async void удалитьСотрудникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var conf_del = new confirm_del(dataGridView1[0, dataGridView1.CurrentCell.RowIndex].Value.ToString(), "сотрудник");
+            if (conf_del.ShowDialog() == DialogResult.OK)
+                dataGridView1.DataSource = (await server.open_db("сотрудники")).сотрудники;
         }
     }
 }

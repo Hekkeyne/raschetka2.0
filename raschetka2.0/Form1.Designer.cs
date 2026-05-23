@@ -100,6 +100,7 @@ namespace raschetka2._0
             удалитьЦехToolStripMenuItem.Name = "удалитьЦехToolStripMenuItem";
             удалитьЦехToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             удалитьЦехToolStripMenuItem.Text = "Удалить цех";
+            удалитьЦехToolStripMenuItem.Click += удалитьЦехToolStripMenuItem_Click;
             // 
             // работаССотрудникамиToolStripMenuItem
             // 
@@ -125,6 +126,7 @@ namespace raschetka2._0
             удалитьСотрудникаToolStripMenuItem.Name = "удалитьСотрудникаToolStripMenuItem";
             удалитьСотрудникаToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
             удалитьСотрудникаToolStripMenuItem.Text = "Удалить сотрудника";
+            удалитьСотрудникаToolStripMenuItem.Click += удалитьСотрудникаToolStripMenuItem_Click;
             // 
             // dataGridView1
             // 

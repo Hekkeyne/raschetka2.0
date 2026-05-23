@@ -146,13 +146,13 @@ namespace raschetka2._0
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Enabled = false;
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(107, 202);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(116, 23);
             comboBox1.TabIndex = 10;
-            comboBox1.Text = "Выберите базу...";
             comboBox1.SelectedIndexChanged += combobox1_selectedondexchanched;
             // 
             // label6

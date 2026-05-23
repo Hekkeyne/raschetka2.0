@@ -40,13 +40,13 @@ namespace raschetka2._0
 
         private void cancel_button(object sender, EventArgs e) => Close();
 
-        private void add_button(object sender, EventArgs e)
+        private async void add_button(object sender, EventArgs e)
         {
             button1.BackColor= Color.LightGray;
             button1.Text = "Добавляем...";
             try
             {
-                server.do_цех(textBox2.Text,
+                await server.do_цех(textBox2.Text,
                     comboBox1.Text,
                     textBox6.Text,
                     textBox7.Text,

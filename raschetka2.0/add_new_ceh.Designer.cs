@@ -173,6 +173,7 @@ namespace raschetka2._0
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(102, 82);
             comboBox1.Name = "comboBox1";

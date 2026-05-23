@@ -1,12 +1,10 @@
 ﻿using Npgsql;
-using System.Data;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace raschetka2._0
 {
     public class open_connection_atd
     {
-        public List<string> combobox_items { get; set; } = new List<string>();
+        public List<string> combobox_items = new List<string>();
     }
     public static class data_for_connection
     {
@@ -19,8 +17,8 @@ namespace raschetka2._0
     }
     public class data_for_dgv
     {
-        public System.Data.DataTable цех { get; set; } = new System.Data.DataTable();
-        public System.Data.DataTable сотрудники { get; set; } = new System.Data.DataTable();
+        public System.Data.DataTable цех = new System.Data.DataTable();
+        public System.Data.DataTable сотрудники = new System.Data.DataTable();
     }
     public class data_цех
     {
@@ -152,10 +150,28 @@ namespace raschetka2._0
                     command.Parameters.AddWithValue("@3", production);
                     command.Parameters.AddWithValue("@4", phone_number);
                     command.Parameters.AddWithValue("@5", adres);
-                    command.ExecuteNonQueryAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
             }
             return writer;
+        }
+        public static async void delete_zap(string delete_id, string table)
+        {
+            using (var connection = new NpgsqlConnection(data_for_connection.connection))
+            {
+                await connection.OpenAsync();
+                switch (table)
+                {
+                    case "цех":
+                        using (var command = new NpgsqlCommand($"DELETE FROM Цех WHERE Счётчик_цеха = {delete_id}",connection))
+                            await command.ExecuteNonQueryAsync();
+                        break;
+                    case "сотрудник":
+                        using (var command = new NpgsqlCommand($"DELETE FROM Сотрудники WHERE Счётчик_сотрудника = {delete_id}", connection))
+                            await command.ExecuteNonQueryAsync();
+                        break;
+                }
+            }
         }
     }
 }
