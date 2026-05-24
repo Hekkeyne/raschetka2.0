@@ -56,6 +56,7 @@ namespace raschetka2._0
             добавитьНовыйЦехToolStripMenuItem = new ToolStripMenuItem();
             изменитьСведенияОЦехеToolStripMenuItem1 = new ToolStripMenuItem();
             удалитьЦехToolStripMenuItem1 = new ToolStripMenuItem();
+            просмотрПоЦехамToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -68,7 +69,7 @@ namespace raschetka2._0
             // menuStrip1
             // 
             menuStrip1.BackgroundImageLayout = ImageLayout.Center;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { работаСЦехомToolStripMenuItem, работаССотрудникамиToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { работаСЦехомToolStripMenuItem, работаССотрудникамиToolStripMenuItem, просмотрПоЦехамToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new System.Drawing.Size(1085, 24);
@@ -94,6 +95,7 @@ namespace raschetka2._0
             изменитьСведенияОЦехеToolStripMenuItem.Name = "изменитьСведенияОЦехеToolStripMenuItem";
             изменитьСведенияОЦехеToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             изменитьСведенияОЦехеToolStripMenuItem.Text = "Изменить сведения о цехе";
+            изменитьСведенияОЦехеToolStripMenuItem.Click += изменитьСведенияОЦехеToolStripMenuItem_Click;
             // 
             // удалитьЦехToolStripMenuItem
             // 
@@ -121,6 +123,7 @@ namespace raschetka2._0
             изменитьСведенияОСотрудникеToolStripMenuItem.Name = "изменитьСведенияОСотрудникеToolStripMenuItem";
             изменитьСведенияОСотрудникеToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
             изменитьСведенияОСотрудникеToolStripMenuItem.Text = "Изменить сведения о сотруднике";
+            изменитьСведенияОСотрудникеToolStripMenuItem.Click += изменитьСведенияОСотрудникеToolStripMenuItem_Click;
             // 
             // удалитьСотрудникаToolStripMenuItem
             // 
@@ -236,6 +239,13 @@ namespace raschetka2._0
             удалитьЦехToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             удалитьЦехToolStripMenuItem1.Text = "Удалить цех";
             // 
+            // просмотрПоЦехамToolStripMenuItem
+            // 
+            просмотрПоЦехамToolStripMenuItem.Name = "просмотрПоЦехамToolStripMenuItem";
+            просмотрПоЦехамToolStripMenuItem.Size = new System.Drawing.Size(129, 20);
+            просмотрПоЦехамToolStripMenuItem.Text = "Просмотр по цехам";
+            просмотрПоЦехамToolStripMenuItem.Click += просмотрПоЦехамToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -283,5 +293,6 @@ namespace raschetka2._0
         private ToolStripMenuItem добавитьНовыйЦехToolStripMenuItem;
         private ToolStripMenuItem изменитьСведенияОЦехеToolStripMenuItem1;
         private ToolStripMenuItem удалитьЦехToolStripMenuItem1;
+        private ToolStripMenuItem просмотрПоЦехамToolStripMenuItem;
     }
 }

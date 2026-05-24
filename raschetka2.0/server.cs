@@ -1,4 +1,6 @@
 ﻿using Npgsql;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace raschetka2._0
 {
@@ -133,18 +135,12 @@ namespace raschetka2._0
             }
             return enter_data;
         }
-        public static async Task<data_цех> add_цех(string ceh_name,
+        public static async void add_цех(string ceh_name,
         string ceh_admin,
         string production,
         string phone_number,
         string adres)
         {
-            var writer = new data_цех();
-            writer.ceh_name = ceh_name;
-            writer.ceh_admin = ceh_admin;
-            writer.production = production;
-            writer.phone_number = phone_number;
-            writer.adres = adres;
             using (NpgsqlConnection connection = new NpgsqlConnection(data_for_connection.connection))
             {
                 await connection.OpenAsync();
@@ -164,9 +160,8 @@ namespace raschetka2._0
                     await command.ExecuteNonQueryAsync();
                 }
             }
-            return writer;
         }
-        public static async Task<data_сотрудник> add_сотрудник(string ceh_name,
+        public static async void add_сотрудник(string ceh_name,
         string name,
         string surname,
         string father_name,
@@ -175,15 +170,6 @@ namespace raschetka2._0
         string phone_number,
         string adres)
         {
-            var writer = new data_сотрудник();
-            writer.ceh_name = ceh_name;
-            writer.name = name;
-            writer.surname = surname;
-            writer.father_name = father_name;
-            writer.dolznost = dolznost;
-            writer.oklad = oklad;
-            writer.phone_number = phone_number;
-            writer.adres = adres;
             using (var connection = new NpgsqlConnection(data_for_connection.connection))
             {
                 await connection.OpenAsync();
@@ -196,7 +182,7 @@ namespace raschetka2._0
                         "Оклад, " +
                         "Телефон, " +
                         "Адрес )" +
-                        "Values (@1,@2,@3,@4,@5, @6, @7, @8)", connection))
+                        "Values (@1,@3,@2,@4,@5, @6, @7, @8)", connection))
                 {
                     command.Parameters.AddWithValue("@2", name);
                     command.Parameters.AddWithValue("@3", surname);
@@ -209,7 +195,6 @@ namespace raschetka2._0
                     await command.ExecuteNonQueryAsync();
                 }
             }
-            return writer;
         }
         public static async void delete_zap(string delete_id, string table)
         {
@@ -229,5 +214,59 @@ namespace raschetka2._0
                 }
             }
         }
+        public static async Task<data_for_dgv> change_table(string id, string table, data_цех data, data_сотрудник data2)
+        {
+            using (var connection = new NpgsqlConnection(data_for_connection.connection))
+            {
+                await connection.OpenAsync();
+                switch (table)
+                {
+                    case "цех":
+                        using (var command = new NpgsqlCommand("UPDATE Цех SET " +
+                    "Название_цеха = @2," +
+                    "Начальник_цеха = @3," +
+                    "Продукция = @4," +
+                    "Телефон = @5," +
+                    "Адрес = @6 " +
+                    $" WHERE Счётчик_цеха = @1 ", connection))
+                        {
+                            command.Parameters.AddWithValue("@1", int.Parse(id));
+                            command.Parameters.AddWithValue("@2", data.ceh_name);
+                            command.Parameters.AddWithValue("@3", data.ceh_admin);
+                            command.Parameters.AddWithValue("@4", data.production);
+                            command.Parameters.AddWithValue("@5", data.phone_number);
+                            command.Parameters.AddWithValue("@6", data.adres);
+                            await command.ExecuteNonQueryAsync();
+                        }
+                        break;
+                    case "сотрудники":
+                        using (var command = new NpgsqlCommand("UPDATE Сотрудники SET " +
+                        "Название_цеха = @1," +
+                        "Фамилия=@3," +
+                        "Имя=@2," +
+                        "Отчество=@4," +
+                        "Должность=@5, " +
+                        "Оклад=@6, " +
+                        "Телефон=@7, " +
+                        "Адрес=@8 " +
+                        " WHERE Счётчик_сотрудника = @9", connection))
+                        {
+                            command.Parameters.AddWithValue("@9", int.Parse(id));
+                            command.Parameters.AddWithValue("@2", data2.name);
+                            command.Parameters.AddWithValue("@3", data2.surname);
+                            command.Parameters.AddWithValue("@4", data2.father_name);
+                            command.Parameters.AddWithValue("@5", data2.dolznost);
+                            command.Parameters.AddWithValue("@1", data2.ceh_name);
+                            command.Parameters.AddWithValue("@6", data2.oklad);
+                            command.Parameters.AddWithValue("@7", data2.phone_number);
+                            command.Parameters.AddWithValue("@8", data2.adres);
+                            await command.ExecuteNonQueryAsync();
+                        }
+                        break;
+                }
+            }
+            return await open_db(table);
+        }
+
     }
 }
