@@ -37,21 +37,21 @@ namespace raschetka2._0
                 list.Add(dataGridView1[2, i].Value.ToString());
             dataGridView2.DataSource = ((new add_new_ceh(list.Distinct().ToList())).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("цех")).цех
-                : (await server.open_db("цех")).цех;
+                : dataGridView2.DataSource;
         }
 
         private async void удалитьЦехToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView2.DataSource = ((new confirm_del(dataGridView2[0, dataGridView2.CurrentCell.RowIndex].Value.ToString(), "цех")).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("цех")).цех
-                : (await server.open_db("цех")).цех;
+                : dataGridView2.DataSource;
         }
 
         private async void удалитьСотрудникаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = ((new confirm_del(dataGridView1[0, dataGridView1.CurrentCell.RowIndex].Value.ToString(), "сотрудник")).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("сотрудники")).сотрудники
-                : (await server.open_db("сотрудники")).сотрудники;
+                : dataGridView1.DataSource;
         }
 
         private async void добавитьНовогоРаботникаToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,7 +61,7 @@ namespace raschetka2._0
                 list_ceh.Add(dataGridView2[1, i].Value.ToString());
             dataGridView1.DataSource = ((new add_new_worker(list_ceh.Distinct().ToList())).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("сотрудники")).сотрудники
-                : (await server.open_db("сотрудники")).сотрудники;
+                : dataGridView1.DataSource;
         }
 
         private async void изменитьСведенияОЦехеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,7 +106,7 @@ namespace raschetka2._0
             writer.adres = dataGridView1["Адрес", dataGridView1.CurrentCell.RowIndex].Value?.ToString() ?? string.Empty;
             dataGridView1.DataSource = ((new change_rab(writer, list)).ShowDialog() == DialogResult.OK)
                 ? (await server.change_table(dataGridView1["Счётчик_сотрудника", dataGridView1.CurrentCell.RowIndex].Value.ToString(), "сотрудники", null, writer)).сотрудники
-                : dataGridView2.DataSource;
+                : dataGridView1.DataSource;
         }
 
         private void просмотрПоЦехамToolStripMenuItem_Click(object sender, EventArgs e)
