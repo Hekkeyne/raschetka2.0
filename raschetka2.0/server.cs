@@ -137,7 +137,7 @@ namespace raschetka2._0
             }
             return enter_data;
         }
-        public static async void add_цех(string ceh_name,
+        public static async Task add_цех(string ceh_name,
         string ceh_admin,
         string production,
         string phone_number,
@@ -170,7 +170,7 @@ namespace raschetka2._0
                 }
             }
         }
-        public static async void add_сотрудник(string ceh_name,
+        public static async Task add_сотрудник(string ceh_name,
         string name,
         string surname,
         string father_name,
@@ -205,7 +205,7 @@ namespace raschetka2._0
                 }
             }
         }
-        public static async void delete_zap(string delete_id, string table)
+        public static async Task delete_zap(string delete_id, string table)
         {
             using (var connection = new NpgsqlConnection(data_for_connection.connection))
             {

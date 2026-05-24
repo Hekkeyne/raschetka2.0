@@ -36,9 +36,10 @@ namespace raschetka2._0
 
         private void exit_button(object sender, EventArgs e) => Close();
 
-        private void delete_button(object sender, EventArgs e)
+        private async void delete_button(object sender, EventArgs e)
         {
-            server.delete_zap(delete_id, tabel);
+            button1.Enabled=false;
+            await server.delete_zap(delete_id, tabel);
             DialogResult=DialogResult.OK;
             Close();
         }
