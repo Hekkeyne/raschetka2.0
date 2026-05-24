@@ -44,6 +44,7 @@ namespace raschetka2._0
             добавитьНовогоРаботникаToolStripMenuItem = new ToolStripMenuItem();
             изменитьСведенияОСотрудникеToolStripMenuItem = new ToolStripMenuItem();
             удалитьСотрудникаToolStripMenuItem = new ToolStripMenuItem();
+            просмотрПоЦехамToolStripMenuItem = new ToolStripMenuItem();
             dataGridView1 = new DBDataGridView();
             dataGridView2 = new DBDataGridView();
             groupBox1 = new GroupBox();
@@ -56,7 +57,6 @@ namespace raschetka2._0
             добавитьНовыйЦехToolStripMenuItem = new ToolStripMenuItem();
             изменитьСведенияОЦехеToolStripMenuItem1 = new ToolStripMenuItem();
             удалитьЦехToolStripMenuItem1 = new ToolStripMenuItem();
-            просмотрПоЦехамToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -131,6 +131,13 @@ namespace raschetka2._0
             удалитьСотрудникаToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
             удалитьСотрудникаToolStripMenuItem.Text = "Удалить сотрудника";
             удалитьСотрудникаToolStripMenuItem.Click += удалитьСотрудникаToolStripMenuItem_Click;
+            // 
+            // просмотрПоЦехамToolStripMenuItem
+            // 
+            просмотрПоЦехамToolStripMenuItem.Name = "просмотрПоЦехамToolStripMenuItem";
+            просмотрПоЦехамToolStripMenuItem.Size = new System.Drawing.Size(190, 20);
+            просмотрПоЦехамToolStripMenuItem.Text = "Просмотр по цехам выключен";
+            просмотрПоЦехамToolStripMenuItem.Click += просмотрПоЦехамToolStripMenuItem_Click;
             // 
             // dataGridView1
             // 
@@ -238,13 +245,6 @@ namespace raschetka2._0
             удалитьЦехToolStripMenuItem1.Name = "удалитьЦехToolStripMenuItem1";
             удалитьЦехToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             удалитьЦехToolStripMenuItem1.Text = "Удалить цех";
-            // 
-            // просмотрПоЦехамToolStripMenuItem
-            // 
-            просмотрПоЦехамToolStripMenuItem.Name = "просмотрПоЦехамToolStripMenuItem";
-            просмотрПоЦехамToolStripMenuItem.Size = new System.Drawing.Size(129, 20);
-            просмотрПоЦехамToolStripMenuItem.Text = "Просмотр по цехам";
-            просмотрПоЦехамToolStripMenuItem.Click += просмотрПоЦехамToolStripMenuItem_Click;
             // 
             // Form1
             // 

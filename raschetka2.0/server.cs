@@ -1,5 +1,7 @@
 ﻿using Npgsql;
+using System.Transactions;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace raschetka2._0
@@ -159,6 +161,13 @@ namespace raschetka2._0
                     command.Parameters.AddWithValue("@5", adres);
                     await command.ExecuteNonQueryAsync();
                 }
+                using (var command = new NpgsqlCommand(
+   "UPDATE Сотрудники SET Должность = 'Начальник цеха', Название_цеха = @dep_name WHERE Фамилия = @fio", connection))
+                {
+                    command.Parameters.AddWithValue("@fio", ceh_admin);
+                    command.Parameters.AddWithValue("@dep_name", ceh_name);
+                    await command.ExecuteNonQueryAsync();
+                }
             }
         }
         public static async void add_сотрудник(string ceh_name,
@@ -206,10 +215,20 @@ namespace raschetka2._0
                     case "цех":
                         using (var command = new NpgsqlCommand($"DELETE FROM Цех WHERE Счётчик_цеха = {delete_id}",connection))
                             await command.ExecuteNonQueryAsync();
+                        using (var command = new NpgsqlCommand(
+    "UPDATE Сотрудники SET Название_цеха = 'Пусто', Должность = 'Пусто' WHERE Название_цеха <> 'Пусто' AND Название_цеха NOT IN (SELECT Название_цеха FROM Цех)", connection))
+                        {
+                            await command.ExecuteNonQueryAsync();
+                        }
                         break;
                     case "сотрудник":
                         using (var command = new NpgsqlCommand($"DELETE FROM Сотрудники WHERE Счётчик_сотрудника = {delete_id}", connection))
                             await command.ExecuteNonQueryAsync();
+                        using (var command = new NpgsqlCommand(
+    "UPDATE Цех SET Начальник_цеха = 'Пусто' WHERE Начальник_цеха <> 'Пусто' AND Начальник_цеха NOT IN (SELECT Фамилия FROM Сотрудники WHERE Фамилия <> 'Пусто')", connection))
+                        {
+                            await command.ExecuteNonQueryAsync();
+                        }
                         break;
                 }
             }
@@ -236,6 +255,13 @@ namespace raschetka2._0
                             command.Parameters.AddWithValue("@4", data.production);
                             command.Parameters.AddWithValue("@5", data.phone_number);
                             command.Parameters.AddWithValue("@6", data.adres);
+                            await command.ExecuteNonQueryAsync();
+                        }
+                        using (var command = new NpgsqlCommand(
+    "UPDATE Сотрудники SET Должность = 'Начальник цеха', Название_цеха = @dep_name WHERE Фамилия = @fio", connection))
+                        {
+                            command.Parameters.AddWithValue("@fio", data.ceh_admin);
+                            command.Parameters.AddWithValue("@dep_name", data.ceh_name); 
                             await command.ExecuteNonQueryAsync();
                         }
                         break;
@@ -267,6 +293,29 @@ namespace raschetka2._0
             }
             return await open_db(table);
         }
+        public static async Task<data_for_dgv> view_needed_db(string name_ceh)
+        {
+            var data = new data_for_dgv();
+            using (var connection = new NpgsqlConnection(data_for_connection.connection))
+            {
+                await connection.OpenAsync();
+                using (var command = new NpgsqlCommand("SELECT * FROM Сотрудники WHERE Название_цеха = @ceh_name",connection))
+                {
+                    command.Parameters.AddWithValue("@ceh_name", name_ceh);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        var need_table = new System.Data.DataTable();
+                        need_table.Load(reader);
+                        data.сотрудники=need_table;
+                    }
+                }
+                
+            }
+            return data;
+        }
+        public static async void check_rabitnik()
+        {
 
+        }
     }
 }

@@ -101,7 +101,7 @@ namespace raschetka2._0
             }
         }
 
-        private void btn2_click(object sender, EventArgs e)
+        private async void btn2_click(object sender, EventArgs e)
         {
             if (button2.Text == "Перейти к базе")
             {
@@ -116,7 +116,7 @@ namespace raschetka2._0
                 button2.Enabled = false;
                 button2.Text = "Создание...";
                 data_for_connection.database = textBox5.Text;
-                var create = server.connect_or_create("create");
+                await server.connect_or_create("create");
                 DialogResult = DialogResult.OK;
                 Close();
             }

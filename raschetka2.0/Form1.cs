@@ -11,6 +11,10 @@ namespace raschetka2._0
             dataGridView1.MultiSelect = false;
             dataGridView2.MultiSelect = false;
         }
+        public static class flags
+        {
+            public static bool view_by_ceh = false;
+        }
 
         private async void lod(object sender, EventArgs e)
         {
@@ -25,9 +29,14 @@ namespace raschetka2._0
         }
         private void resize_form1(object sender, EventArgs e) => groupBox1.Width = ClientSize.Width / 3;
 
-        private void selection_changed_цех(object sender, EventArgs e)
+        private async void selection_changed_цех(object sender, EventArgs e)
         {
-            //вывод толко нужных сотрудников
+            
+            if (flags.view_by_ceh)
+            {
+                DataGridView dtv = sender as DataGridView;
+                dataGridView1.DataSource = (await server.view_needed_db(dtv["Название_цеха",dtv.CurrentCell.RowIndex].Value?.ToString()??throw new Exception("Что-то пошло не так"))).сотрудники;
+            }
         }
 
         private async void добавитьНоыйЦехToolStripMenuItem_Click(object sender, EventArgs e)
@@ -38,6 +47,7 @@ namespace raschetka2._0
             dataGridView2.DataSource = ((new add_new_ceh(list.Distinct().ToList())).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("цех")).цех
                 : dataGridView2.DataSource;
+            dataGridView1.DataSource = (await server.open_db("сотрудники")).сотрудники;
         }
 
         private async void удалитьЦехToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,6 +55,7 @@ namespace raschetka2._0
             dataGridView2.DataSource = ((new confirm_del(dataGridView2[0, dataGridView2.CurrentCell.RowIndex].Value.ToString(), "цех")).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("цех")).цех
                 : dataGridView2.DataSource;
+            dataGridView1.DataSource = (await server.open_db("сотрудники")).сотрудники;
         }
 
         private async void удалитьСотрудникаToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,6 +63,7 @@ namespace raschetka2._0
             dataGridView1.DataSource = ((new confirm_del(dataGridView1[0, dataGridView1.CurrentCell.RowIndex].Value.ToString(), "сотрудник")).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("сотрудники")).сотрудники
                 : dataGridView1.DataSource;
+            dataGridView2.DataSource = (await server.open_db("цех")).цех;
         }
 
         private async void добавитьНовогоРаботникаToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,6 +74,7 @@ namespace raschetka2._0
             dataGridView1.DataSource = ((new add_new_worker(list_ceh.Distinct().ToList())).ShowDialog() == DialogResult.OK)
                 ? (await server.open_db("сотрудники")).сотрудники
                 : dataGridView1.DataSource;
+            dataGridView2.DataSource = (await server.open_db("цех")).цех;
         }
 
         private async void изменитьСведенияОЦехеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,13 +96,14 @@ namespace raschetka2._0
             dataGridView2.DataSource = ((new change_ceh(writer, list)).ShowDialog() == DialogResult.OK)
                 ? (await server.change_table(dataGridView2["Счётчик_цеха", dataGridView2.CurrentCell.RowIndex].Value.ToString(), "цех", writer, null)).цех
                 : dataGridView2.DataSource;
+            dataGridView1.DataSource = (await server.open_db("сотрудники")).сотрудники;
         }
 
         private async void изменитьСведенияОСотрудникеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentCell == null)
             {
-                MessageBox.Show("Выберите цех для изменения");
+                MessageBox.Show("Выберите работника для изменения");
                 return;
             }
             List<string> list = new List<string>();
@@ -107,11 +121,15 @@ namespace raschetka2._0
             dataGridView1.DataSource = ((new change_rab(writer, list)).ShowDialog() == DialogResult.OK)
                 ? (await server.change_table(dataGridView1["Счётчик_сотрудника", dataGridView1.CurrentCell.RowIndex].Value.ToString(), "сотрудники", null, writer)).сотрудники
                 : dataGridView1.DataSource;
+            dataGridView2.DataSource = (await server.open_db("цех")).цех;
         }
 
-        private void просмотрПоЦехамToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void просмотрПоЦехамToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            flags.view_by_ceh = !flags.view_by_ceh;
+            просмотрПоЦехамToolStripMenuItem.BackColor = flags.view_by_ceh ? Color.LightGreen : SystemColors.Control;
+            просмотрПоЦехамToolStripMenuItem.Text = flags.view_by_ceh ? "Просмотр по цехам включён" : "Просмотр по цехам выключен";
+            dataGridView1.DataSource = flags.view_by_ceh ? dataGridView1.DataSource : (await server.open_db("сотрудники")).сотрудники;
         }
     }
 }
