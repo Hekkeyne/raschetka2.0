@@ -256,6 +256,7 @@ namespace raschetka2._0
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
+            StartPosition = FormStartPosition.WindowsDefaultBounds;
             Text = "База данных";
             Load += lod;
             Resize += resize_form1;

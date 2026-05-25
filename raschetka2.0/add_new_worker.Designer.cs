@@ -255,6 +255,7 @@ namespace raschetka2._0
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "add_new_worker";
+            StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);
             PerformLayout();
         }

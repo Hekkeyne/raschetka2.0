@@ -257,6 +257,7 @@ namespace raschetka2._0
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "change_rab";
+            StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);
             PerformLayout();
         }
