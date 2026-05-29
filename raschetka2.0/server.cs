@@ -313,9 +313,5 @@ namespace raschetka2._0
             }
             return data;
         }
-        public static async void check_rabitnik()
-        {
-
-        }
     }
 }

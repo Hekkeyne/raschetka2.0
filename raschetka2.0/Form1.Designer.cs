@@ -50,11 +50,9 @@ namespace raschetka2._0
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            добавитьНовогоСотрудникаToolStripMenuItem = new ToolStripMenuItem();
             изменитьСведенияОСотрудникеToolStripMenuItem1 = new ToolStripMenuItem();
             удалитьСотрудникаToolStripMenuItem1 = new ToolStripMenuItem();
             contextMenuStrip2 = new ContextMenuStrip(components);
-            добавитьНовыйЦехToolStripMenuItem = new ToolStripMenuItem();
             изменитьСведенияОЦехеToolStripMenuItem1 = new ToolStripMenuItem();
             удалитьЦехToolStripMenuItem1 = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
@@ -155,6 +153,7 @@ namespace raschetka2._0
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new System.Drawing.Size(780, 555);
             dataGridView1.TabIndex = 2;
+            dataGridView1.CellDoubleClick += dataGridView1_CellClick;
             // 
             // dataGridView2
             // 
@@ -172,6 +171,7 @@ namespace raschetka2._0
             dataGridView2.RowHeadersVisible = false;
             dataGridView2.Size = new System.Drawing.Size(293, 555);
             dataGridView2.TabIndex = 3;
+            dataGridView2.CellDoubleClick += dataGridView2_CellClick;
             dataGridView2.SelectionChanged += selection_changed_цех;
             // 
             // groupBox1
@@ -198,53 +198,45 @@ namespace raschetka2._0
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { добавитьНовогоСотрудникаToolStripMenuItem, изменитьСведенияОСотрудникеToolStripMenuItem1, удалитьСотрудникаToolStripMenuItem1 });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { изменитьСведенияОСотрудникеToolStripMenuItem1, удалитьСотрудникаToolStripMenuItem1 });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new System.Drawing.Size(258, 70);
+            contextMenuStrip1.Size = new System.Drawing.Size(258, 48);
             contextMenuStrip1.Text = "Работа с сотрудниками";
-            // 
-            // добавитьНовогоСотрудникаToolStripMenuItem
-            // 
-            добавитьНовогоСотрудникаToolStripMenuItem.Name = "добавитьНовогоСотрудникаToolStripMenuItem";
-            добавитьНовогоСотрудникаToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
-            добавитьНовогоСотрудникаToolStripMenuItem.Text = "Добавить нового сотрудника";
             // 
             // изменитьСведенияОСотрудникеToolStripMenuItem1
             // 
             изменитьСведенияОСотрудникеToolStripMenuItem1.Name = "изменитьСведенияОСотрудникеToolStripMenuItem1";
             изменитьСведенияОСотрудникеToolStripMenuItem1.Size = new System.Drawing.Size(257, 22);
             изменитьСведенияОСотрудникеToolStripMenuItem1.Text = "Изменить сведения о сотруднике";
+            изменитьСведенияОСотрудникеToolStripMenuItem1.Click += изменитьСведенияОСотрудникеToolStripMenuItem_Click;
             // 
             // удалитьСотрудникаToolStripMenuItem1
             // 
             удалитьСотрудникаToolStripMenuItem1.Name = "удалитьСотрудникаToolStripMenuItem1";
             удалитьСотрудникаToolStripMenuItem1.Size = new System.Drawing.Size(257, 22);
             удалитьСотрудникаToolStripMenuItem1.Text = "Удалить сотрудника";
+            удалитьСотрудникаToolStripMenuItem1.Click += удалитьСотрудникаToolStripMenuItem_Click;
             // 
             // contextMenuStrip2
             // 
-            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { добавитьНовыйЦехToolStripMenuItem, изменитьСведенияОЦехеToolStripMenuItem1, удалитьЦехToolStripMenuItem1 });
+            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { изменитьСведенияОЦехеToolStripMenuItem1, удалитьЦехToolStripMenuItem1 });
             contextMenuStrip2.Name = "contextMenuStrip2";
-            contextMenuStrip2.Size = new System.Drawing.Size(219, 70);
+            contextMenuStrip2.Size = new System.Drawing.Size(219, 48);
             contextMenuStrip2.Text = "Работа с цехом";
-            // 
-            // добавитьНовыйЦехToolStripMenuItem
-            // 
-            добавитьНовыйЦехToolStripMenuItem.Name = "добавитьНовыйЦехToolStripMenuItem";
-            добавитьНовыйЦехToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            добавитьНовыйЦехToolStripMenuItem.Text = "Добавить новый цех";
             // 
             // изменитьСведенияОЦехеToolStripMenuItem1
             // 
             изменитьСведенияОЦехеToolStripMenuItem1.Name = "изменитьСведенияОЦехеToolStripMenuItem1";
             изменитьСведенияОЦехеToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             изменитьСведенияОЦехеToolStripMenuItem1.Text = "Изменить сведения о цехе";
+            изменитьСведенияОЦехеToolStripMenuItem1.Click += изменитьСведенияОЦехеToolStripMenuItem_Click;
             // 
             // удалитьЦехToolStripMenuItem1
             // 
             удалитьЦехToolStripMenuItem1.Name = "удалитьЦехToolStripMenuItem1";
             удалитьЦехToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             удалитьЦехToolStripMenuItem1.Text = "Удалить цех";
+            удалитьЦехToolStripMenuItem1.Click += удалитьЦехToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -287,11 +279,9 @@ namespace raschetka2._0
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem добавитьНовогоСотрудникаToolStripMenuItem;
         private ToolStripMenuItem изменитьСведенияОСотрудникеToolStripMenuItem1;
         private ToolStripMenuItem удалитьСотрудникаToolStripMenuItem1;
         private ContextMenuStrip contextMenuStrip2;
-        private ToolStripMenuItem добавитьНовыйЦехToolStripMenuItem;
         private ToolStripMenuItem изменитьСведенияОЦехеToolStripMenuItem1;
         private ToolStripMenuItem удалитьЦехToolStripMenuItem1;
         private ToolStripMenuItem просмотрПоЦехамToolStripMenuItem;

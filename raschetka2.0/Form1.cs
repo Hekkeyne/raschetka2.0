@@ -31,11 +31,11 @@ namespace raschetka2._0
 
         private async void selection_changed_цех(object sender, EventArgs e)
         {
-            
+
             if (flags.view_by_ceh)
             {
                 DataGridView dtv = sender as DataGridView;
-                dataGridView1.DataSource = (await server.view_needed_db(dtv["Название_цеха",dtv.CurrentCell.RowIndex].Value?.ToString()??throw new Exception("Что-то пошло не так"))).сотрудники;
+                dataGridView1.DataSource = (await server.view_needed_db(dtv["Название_цеха", dtv.CurrentCell.RowIndex].Value?.ToString() ?? throw new Exception("Что-то пошло не так"))).сотрудники;
             }
         }
 
@@ -131,5 +131,9 @@ namespace raschetka2._0
             просмотрПоЦехамToolStripMenuItem.Text = flags.view_by_ceh ? "Просмотр по цехам включён" : "Просмотр по цехам выключен";
             dataGridView1.DataSource = flags.view_by_ceh ? dataGridView1.DataSource : (await server.open_db("сотрудники")).сотрудники;
         }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)=> contextMenuStrip2.Show(Cursor.Position);
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)=> contextMenuStrip1.Show(Cursor.Position);
     }
 }
